@@ -1,3 +1,5 @@
-mod core;
+mod error;
+mod generator;
 
-pub use self::core::generate;
+pub use self::error::Error;
+pub use self::generator::{save, Generator};
