@@ -1,5 +1,5 @@
 use crate::error::Error;
-use tiny_skia::{Color, FillRule, Paint, Path, PathBuilder, Pixmap, Transform};
+use tiny_skia::{Color, FillRule, Paint, PathBuilder, Pixmap, Transform};
 
 pub struct Generator {
   width: u32,
@@ -42,10 +42,10 @@ impl Generator {
         );
 
         for rotate in 0..self.all {
-          let pb = PathBuilder::new();
-          let line = concentrated_line(pb, rotate, self.all);
+          let mut pb = PathBuilder::new();
+          concentrated_line(&mut pb, rotate, self.all);
 
-          if let Some(_line) = line {
+          if let Some(_line) = pb.finish() {
             pixmap.fill_path(
               &_line,
               &paint,
@@ -62,7 +62,10 @@ impl Generator {
   }
 }
 
-fn concentrated_line(mut pb: PathBuilder, rotation: u32, all: u32) -> Option<Path> {
+fn concentrated_line(pb: &mut PathBuilder, rotation: u32, all: u32) {
+  pb.move_to(60.0, 60.0);
+  pb.line_to(160.0, 940.0);
+  pb.cubic_to(380.0, 840.0, 660.0, 800.0, 940.0, 800.0);
+  pb.cubic_to(740.0, 460.0, 440.0, 160.0, 60.0, 60.0);
   pb.close();
-  pb.finish()
 }
